@@ -1,7 +1,6 @@
 import makeWASocket, { useMultiFileAuthState } from "@whiskeysockets/baileys";
 import pino from "pino";
-import qrcode from "qrcode";
-import fs from "fs";
+import qrcode from "qrcode-terminal"; // menšia a jednoduchšia knižnica pre log
 
 const vulgarizmy = ["kokot", "pica", "jebat", "kurva", "debil"];
 
@@ -14,13 +13,11 @@ async function startBot() {
 
     sock.ev.on("creds.update", saveCreds);
 
-    // QR handling
-    sock.ev.on('connection.update', async (update) => {
+    sock.ev.on('connection.update', (update) => {
         const { qr, connection } = update;
         if (qr) {
-            console.log("Generujem QR kód...");
-            await qrcode.toFile('qr.png', qr);
-            console.log("QR kód uložený ako qr.png");
+            console.log("QR kód:");
+            qrcode.generate(qr, { small: true }); // zobrazí QR kód v logu Render
         }
         if (connection === 'open') {
             console.log("Bot pripojený ✅");
