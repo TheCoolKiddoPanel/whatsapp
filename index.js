@@ -1,6 +1,6 @@
 import makeWASocket, { useMultiFileAuthState } from "@whiskeysockets/baileys";
 import pino from "pino";
-import qrcode from "qrcode-terminal"; // menšia a jednoduchšia knižnica pre log
+import qrcode from "qrcode-terminal";
 
 const vulgarizmy = ["kokot", "pica", "jebat", "kurva", "debil"];
 
@@ -17,7 +17,7 @@ async function startBot() {
         const { qr, connection } = update;
         if (qr) {
             console.log("QR kód:");
-            qrcode.generate(qr, { small: true }); // zobrazí QR kód v logu Render
+            qrcode.generate(qr, { small: true });
         }
         if (connection === 'open') {
             console.log("Bot pripojený ✅");
@@ -44,3 +44,5 @@ async function startBot() {
 }
 
 startBot();
+
+
