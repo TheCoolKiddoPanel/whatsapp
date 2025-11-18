@@ -13,11 +13,12 @@ async function startBot() {
 
     sock.ev.on("creds.update", saveCreds);
 
+    // QR code handler
     sock.ev.on('connection.update', (update) => {
         const { qr, connection } = update;
         if (qr) {
-            console.log("QR kód:");
-            qrcode.generate(qr, { small: true });
+            console.log("QR kód (ASCII):");
+            qrcode.generate(qr, { small: true }); // toto sa zobrazí v logu Render
         }
         if (connection === 'open') {
             console.log("Bot pripojený ✅");
@@ -44,5 +45,6 @@ async function startBot() {
 }
 
 startBot();
+
 
 
