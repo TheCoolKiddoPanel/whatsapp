@@ -1,5 +1,7 @@
 import makeWASocket, { useMultiFileAuthState } from "@whiskeysockets/baileys";
 import pino from "pino";
+import qrcode from "qrcode";
+import fs from "fs";
 
 const vulgarizmy = ["kokot", "pica", "jebat", "kurva", "debil"];
 
@@ -7,11 +9,23 @@ async function startBot() {
     const { state, saveCreds } = await useMultiFileAuthState('./auth_info');
     const sock = makeWASocket({
         logger: pino({ level: "silent" }),
-        printQRInTerminal: true,
         auth: state
     });
 
     sock.ev.on("creds.update", saveCreds);
+
+    // QR handling
+    sock.ev.on('connection.update', async (update) => {
+        const { qr, connection } = update;
+        if (qr) {
+            console.log("Generujem QR kód...");
+            await qrcode.toFile('qr.png', qr);
+            console.log("QR kód uložený ako qr.png");
+        }
+        if (connection === 'open') {
+            console.log("Bot pripojený ✅");
+        }
+    });
 
     sock.ev.on("messages.upsert", async ({ messages }) => {
         const msg = messages[0];
