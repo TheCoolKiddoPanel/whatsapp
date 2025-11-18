@@ -1,7 +1,6 @@
 {
   "name": "whatsapp-moderator-bot",
   "version": "1.0.0",
-  "description": "WhatsApp moderator bot bez Facebooku, funguje na Render.com 24/7",
   "type": "module",
   "main": "index.js",
   "scripts": {
@@ -14,6 +13,5 @@
   },
   "engines": {
     "node": "22.x"
-  },
-  "license": "MIT"
+  }
 }
